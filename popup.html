@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spotify-Style Player Bar</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; width: 300px; background: #121212; color: #fff; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; }
+  header img { width: 24px; height: 24px; border-radius: 6px; }
+  header b { font-size: 14px; font-weight: 600; }
+  .list { padding: 4px 8px 8px; }
+  label { display: flex; align-items: center; gap: 12px; padding: 9px 8px; border-radius: 6px; cursor: pointer; }
+  label:hover { background: #1f1f1f; }
+  label span { flex: 1; }
+  label small { display: block; color: #a7a7a7; font-size: 11.5px; margin-top: 1px; }
+  .group { padding: 10px 8px 4px; color: #a7a7a7; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .sub { padding-left: 8px; }
+  .sub.off { opacity: .4; pointer-events: none; }
+  input { appearance: none; flex: none; width: 34px; height: 20px; margin: 0; border-radius: 10px; background: #535353; position: relative; cursor: pointer; transition: background .15s; }
+  input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .15s; }
+  input:checked { background: #1ed760; }
+  input:checked::after { transform: translateX(14px); }
+  input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  footer { padding: 10px 16px 14px; border-top: 1px solid #282828; color: #a7a7a7; font-size: 11.5px; }
+</style>
+</head>
+<body>
+  <header><img src="icons/icon48.png" alt=""><b>Spotify-Style Player Bar</b></header>
+  <div class="list">
+    <div class="group">Player bar</div>
+    <label><span>Spotify layout<small>Turn off to get YouTube Music’s own bar back</small></span><input type="checkbox" id="enabled"></label>
+    <div class="sub" id="sub">
+      <label><span>Black bar &amp; green accents</span><input type="checkbox" id="colors"></label>
+      <label><span>Spotify’s real size at any zoom<small>Keeps the bar 72px tall on screen even when the page is zoomed</small></span><input type="checkbox" id="trueSize"></label>
+      <label><span>Song details on title click<small>Full title, plays, likes, release date and the artist</small></span><input type="checkbox" id="details"></label>
+      <label><span>Player page opens only from album art<small>Clicking empty parts of the bar does nothing</small></span><input type="checkbox" id="artOnly"></label>
+      <label><span>Show dislike button</span><input type="checkbox" id="dislike"></label>
+      <label><span>Show ⋮ menu button</span><input type="checkbox" id="menu"></label>
+    </div>
+    <div class="group">Player page</div>
+    <label><span>Immersive video<small>Videos fill the player page, the Song/Video switch moves to the top bar, and the sidebar folds away to the right</small></span><input type="checkbox" id="immersive"></label>
+    <div class="sub" id="sub2">
+      <label><span>Sidebar floats over the video<small>Off: the video shrinks to make room for the sidebar</small></span><input type="checkbox" id="overlay"></label>
+    </div>
+  </div>
+  <footer>Changes apply instantly on open YouTube Music tabs.</footer>
+  <script src="popup.js"></script>
+</body>
+</html>

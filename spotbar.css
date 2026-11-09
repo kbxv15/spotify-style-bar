@@ -1,0 +1,551 @@
+/* Spotify-style player bar for YouTube Music.
+   Applies only while the layout script has rearranged the bar (html[data-spotbar-active]).
+   The :not(#…) parts only raise selector priority, so theme extensions can't override the layout.
+   Generated from src/spotbar.template.css by src/build.py — edit that file instead. */
+
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar {
+  --sb-text: #fff;
+  --sb-subdued: #b3b3b3;
+  --sb-track: #4d4d4d;
+  --sb-accent: #fff;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: calc(72px * var(--sb-s, 1)) !important;
+  padding: 0 calc(8px * var(--sb-s, 1)) !important;
+  box-sizing: border-box !important;
+  gap: 0 !important;
+}
+html[data-spotbar-active][data-spotbar-colors="on"]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar {
+  --sb-accent: #1ed760;
+  background: #000 !important;
+  background-color: #000 !important;
+  border-top: 0 !important;
+}
+
+/* Size unit. "True size" multiplies every length by the inverse of the page zoom, so the bar
+   measures the same as Spotify on screen. Done with real lengths, not CSS zoom, because YouTube
+   Music's sliders measure themselves in a way that breaks under zoom. */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) { --sb-s: 1; }
+html[data-spotbar-active][data-spotbar-truesize="on"]:not(#sb-x1):not(#sb-x2):not(#sb-x3) { --sb-s: var(--spotbar-scale, 1); }
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) :is(ytmusic-app, ytmusic-app-layout) {
+  --ytmusic-player-bar-height: calc(72px * var(--sb-s, 1)) !important;
+}
+
+/* ───────── shared button look: 32px hit area ───────── */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon-button,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons yt-button-shape > button,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn {
+  width: calc(32px * var(--sb-s, 1)) !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+  min-width: calc(32px * var(--sb-s, 1)) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--sb-subdued) !important;
+  flex: 0 0 auto !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon-button > button,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon-button #button {
+  width: calc(32px * var(--sb-s, 1)) !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: inherit !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon-button yt-icon,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons yt-button-shape yt-icon,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons yt-button-shape .yt-icon-shape,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons yt-button-shape .ytSpecButtonShapeNextIcon {
+  width: calc(20px * var(--sb-s, 1)) !important;
+  height: calc(20px * var(--sb-s, 1)) !important;
+  color: inherit !important;
+  fill: currentColor;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon svg,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .yt-icon-shape svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar yt-icon-button:hover,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons yt-button-shape > button:hover,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn:hover {
+  color: var(--sb-text) !important;
+}
+
+/* Only the album art opens the player page (see layout.js), so only it gets a pointer */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3):not([data-spotbar-artonly="off"]) ytmusic-player-bar { cursor: default !important; }
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3):not([data-spotbar-artonly="off"]) ytmusic-player-bar .thumbnail-image-wrapper { cursor: pointer !important; }
+
+/* ───────── LEFT: art, title, like ───────── */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls {
+  box-sizing: border-box !important;
+  order: 1 !important;
+  flex: 0 0 auto !important;
+  width: max(30%, var(--sb-side-min, 0px)) !important;
+  min-width: calc(180px * var(--sb-s, 1)) !important;
+  max-width: none !important;
+  height: calc(72px * var(--sb-s, 1)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .thumbnail-image-wrapper {
+  width: calc(56px * var(--sb-s, 1)) !important;
+  height: calc(56px * var(--sb-s, 1)) !important;
+  flex: 0 0 calc(56px * var(--sb-s, 1)) !important;
+  margin: 0 calc(16px * var(--sb-s, 1)) 0 0 !important;
+  border-radius: calc(4px * var(--sb-s, 1)) !important;
+  overflow: hidden !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .thumbnail-image-wrapper img.image {
+  width: calc(56px * var(--sb-s, 1)) !important;
+  height: calc(56px * var(--sb-s, 1)) !important;
+  object-fit: cover !important;
+  border-radius: calc(4px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: calc(6px * var(--sb-s, 1)) 0 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .title {
+  font-size: calc(14px * var(--sb-s, 1)) !important;
+  line-height: calc(22px * var(--sb-s, 1)) !important;
+  font-weight: 400 !important;
+  color: var(--sb-text) !important;
+  max-width: 100% !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .byline-wrapper,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .subtitle,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .byline {
+  font-size: calc(12px * var(--sb-s, 1)) !important;
+  line-height: calc(18px * var(--sb-s, 1)) !important;
+  color: var(--sb-subdued) !important;
+  max-width: 100% !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .byline a {
+  color: inherit !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .content-info-wrapper .byline a:hover {
+  color: var(--sb-text) !important;
+  text-decoration: underline !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons {
+  order: 0 !important;
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+  margin: 0 calc(8px * var(--sb-s, 1)) 0 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar ytmusic-like-button-renderer {
+  display: flex !important;
+  align-items: center !important;
+  width: auto !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar ytmusic-like-button-renderer[like-status="LIKE"] yt-button-shape.like > button,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar ytmusic-like-button-renderer[like-status="DISLIKE"] yt-button-shape.dislike > button {
+  color: var(--sb-accent) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3):not([data-spotbar-dislike="on"]) ytmusic-player-bar yt-button-shape.dislike {
+  display: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-spotbar-menu="off"] ytmusic-player-bar .middle-controls-buttons ytmusic-menu-renderer {
+  display: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons ytmusic-menu-renderer {
+  width: calc(32px * var(--sb-s, 1)) !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+  margin: 0 !important;
+}
+
+/* ───────── CENTER: controls and seek bar ───────── */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #left-controls {
+  box-sizing: border-box !important;
+  order: 2 !important;
+  flex: 0 1 auto !important;
+  width: 40% !important;
+  max-width: calc(722px * var(--sb-s, 1)) !important;
+  min-width: 0 !important;
+  height: calc(72px * var(--sb-s, 1)) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: calc(4px * var(--sb-s, 1)) !important;
+  padding: calc(6px * var(--sb-s, 1)) 0 0 !important;
+  margin: 0 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .left-controls-buttons {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: calc(8px * var(--sb-s, 1)) !important;
+  height: calc(32px * var(--sb-s, 1)) !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #play-pause-button {
+  margin: 0 calc(8px * var(--sb-s, 1)) !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: #000 !important;
+  transition: transform 33ms ease !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #play-pause-button:hover {
+  color: #000 !important;
+  transform: scale(1.06);
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #play-pause-button yt-icon {
+  width: calc(20px * var(--sb-s, 1)) !important;
+  height: calc(20px * var(--sb-s, 1)) !important;
+  color: #000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #play-pause-button .play-pause-lottie,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #play-pause-button yt-interaction {
+  display: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar[repeat-mode="ALL"] yt-icon-button.repeat,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar[repeat-mode="ONE"] yt-icon-button.repeat {
+  color: var(--sb-accent) !important;
+  position: relative !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar[repeat-mode="ALL"] yt-icon-button.repeat::after,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar[repeat-mode="ONE"] yt-icon-button.repeat::after,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn.spotbar-on::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(4px * var(--sb-s, 1));
+  height: calc(4px * var(--sb-s, 1));
+  margin-left: calc(-2px * var(--sb-s, 1));
+  border-radius: 50%;
+  background: currentColor;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .time-info {
+  display: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: calc(8px * var(--sb-s, 1)) !important;
+  width: 100% !important;
+  height: calc(16px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-time {
+  flex: 0 0 auto !important;
+  min-width: calc(40px * var(--sb-s, 1)) !important;
+  font-size: calc(12px * var(--sb-s, 1)) !important;
+  line-height: calc(16px * var(--sb-s, 1)) !important;
+  color: var(--sb-subdued) !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-elapsed { text-align: right !important; }
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-total { text-align: left !important; }
+
+/* Seek bar and volume bar: 4px track, white fill, accent colour and knob on hover */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #progress-bar {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: auto !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) #sliderContainer {
+  margin: 0 !important;
+  width: 100% !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .bar-container {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  overflow: visible !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) #sliderBar {
+  padding: calc(4px * var(--sb-s, 1)) 0 !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) #progressContainer {
+  height: calc(4px * var(--sb-s, 1)) !important;
+  border-radius: calc(2px * var(--sb-s, 1)) !important;
+  background: var(--sb-track) !important;
+  overflow: hidden !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) #primaryProgress {
+  height: calc(4px * var(--sb-s, 1)) !important;
+  background: #fff !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) #secondaryProgress {
+  display: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider):hover #primaryProgress {
+  background: var(--sb-accent) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .slider-knob-container {
+  position: absolute !important;
+  inset: 0 !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+  pointer-events: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .slider-knob {
+  width: calc(12px * var(--sb-s, 1)) !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+  top: 0 !important;
+  margin: 0 0 0 calc(-6px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .slider-knob-inner {
+  margin: 0 !important;
+  width: calc(12px * var(--sb-s, 1)) !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+  background: #fff !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .5) !important;
+  transform: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider):is(:hover, [dragging]) .slider-knob-inner {
+  opacity: 1 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .slider-knob-inner::before,
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar :is(#progress-bar, #volume-slider) .slider-knob-inner::after {
+  display: none !important;
+}
+
+/* ───────── RIGHT: lyrics, queue, volume, player page ───────── */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #right-controls {
+  box-sizing: border-box !important;
+  order: 3 !important;
+  flex: 0 0 auto !important;
+  width: max(30%, var(--sb-side-min, 0px)) !important;
+  min-width: calc(180px * var(--sb-s, 1)) !important;
+  max-width: none !important;
+  height: calc(72px * var(--sb-s, 1)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-extras {
+  order: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #right-controls > * {
+  flex-shrink: 0 !important;
+}
+/* volume icon sits right next to the volume bar, like Spotify's */
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .right-controls-buttons > .volume {
+  order: 9 !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .right-controls-buttons {
+  order: 2 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #volume-slider {
+  order: 3 !important;
+  width: calc(93px * var(--sb-s, 1)) !important;
+  min-width: calc(93px * var(--sb-s, 1)) !important;
+  height: calc(12px * var(--sb-s, 1)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar ytmusic-player-expanding-menu { order: 4 !important; }
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .toggle-player-page-button {
+  order: 5 !important;
+  margin-left: calc(8px * var(--sb-s, 1)) !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .exit-fullscreen-button { order: 6 !important; }
+
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  outline-offset: calc(-2px * var(--sb-s, 1));
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn svg {
+  width: calc(16px * var(--sb-s, 1)) !important;
+  height: calc(16px * var(--sb-s, 1)) !important;
+  pointer-events: none !important;
+}
+html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-btn.spotbar-on {
+  color: var(--sb-accent) !important;
+}
+
+/* Narrow windows: drop the extras first, like Spotify does */
+@media (max-width: 900px) {
+  html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .spotbar-extras { display: none !important; }
+}
+@media (max-width: 720px) {
+  html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar #volume-slider { display: none !important; }
+  html[data-spotbar-active]:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-player-bar .middle-controls-buttons ytmusic-menu-renderer { display: none !important; }
+}
+
+/* ═════════════════ Immersive video (player page) — see immersive.js ═════════════════
+   html[data-sbi="on"] while the player page is open and showing a video. */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3) { --sbi-side-w: clamp(320px, 30vw, 440px); }
+
+/* Song/Video switch lives in the top bar, next to search */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3) ytmusic-nav-bar #av-id { display: none !important; }
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi-page="on"][data-sbi-av="on"] ytmusic-nav-bar #av-id {
+  display: flex !important;
+  align-items: center !important;
+  align-self: center !important;
+  position: static !important;
+  height: auto !important;
+  margin: 0 0 0 16px !important;
+  padding: 0 !important;
+  flex: none !important;
+}
+
+/* Video fills everything between the top bar and the player bar */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page .content {
+  position: relative !important;
+  padding: 0 !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page #main-panel {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000 !important;
+  transition: right .25s ease !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-overlay="off"][data-sbi-sidebar="open"] ytmusic-player-page #main-panel {
+  right: var(--sbi-side-w) !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page ytmusic-player#player {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page #movie_player {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+}
+/* keep the video's own buttons (mini player, full screen) clear of a floating sidebar */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-overlay="on"][data-sbi-sidebar="open"] ytmusic-player-page #song-media-window {
+  right: var(--sbi-side-w) !important;
+}
+
+/* Sidebar: pinned to the right edge, folds away to the right */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page #side-panel {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  width: var(--sbi-side-w) !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 8px 0 0 !important;
+  box-sizing: border-box !important;
+  z-index: 5 !important;
+  transform: none !important;
+  visibility: visible !important;
+  transition: transform .25s ease, visibility 0s linear 0s !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-sidebar="closed"] ytmusic-player-page #side-panel {
+  transform: translateX(100%) !important;
+  visibility: hidden !important;
+  transition: transform .25s ease, visibility 0s linear .25s !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-overlay="on"] ytmusic-player-page #side-panel {
+  background: rgba(10, 10, 10, .78) !important;
+  backdrop-filter: blur(20px) saturate(1.2) !important;
+  box-shadow: -12px 0 32px rgba(0, 0, 0, .35) !important;
+}
+
+/* Fold/unfold handle on the sidebar's left edge */
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3) .sbi-handle { display: none !important; }
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page .sbi-handle {
+  display: flex !important;
+  position: absolute !important;
+  z-index: 6 !important;
+  top: 50% !important;
+  right: var(--sbi-side-w) !important;
+  width: 22px !important;
+  height: 64px !important;
+  margin: -32px 0 0 !important;
+  padding: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  border-radius: 8px 0 0 8px !important;
+  background: rgba(20, 20, 20, .78) !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  transition: right .25s ease, background-color .15s !important;
+}
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-sidebar="closed"] ytmusic-player-page .sbi-handle { right: 0 !important; }
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page .sbi-handle:hover { background: rgba(48, 48, 48, .92) !important; }
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"] ytmusic-player-page .sbi-handle svg { width: 16px; height: 16px; transition: transform .25s ease; }
+html:not(#sb-x1):not(#sb-x2):not(#sb-x3)[data-sbi="on"][data-sbi-sidebar="closed"] ytmusic-player-page .sbi-handle svg { transform: rotate(180deg); }

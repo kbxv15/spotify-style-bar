@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Spotify-Style Player Bar for YouTube Music",
+  "short_name": "Spotify-Style Bar",
+  "version": "1.4.1",
+  "description": "Spotify-style player bar for YouTube Music, plus an immersive full-size video player with a fold-away sidebar.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Spotify-Style Player Bar",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://music.youtube.com/*"
+      ],
+      "js": [
+        "settings.js"
+      ],
+      "css": [
+        "spotbar.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://music.youtube.com/*"
+      ],
+      "js": [
+        "layout.js",
+        "details.js",
+        "immersive.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_idle"
+    }
+  ]
+}
