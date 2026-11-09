@@ -11,7 +11,7 @@ Rearranges YouTube Music's bottom player bar into Spotify's layout, with Spotify
 ## Immersive video (player page)
 
 - The **Song/Video switch** moves to the top bar, next to search.
-- **Videos fill the whole player page**, edge to edge between the top bar and the player bar, letterboxed in black. Songs without a video keep YouTube Music's normal album-art layout.
+- **Videos fill the whole player page**, edge to edge between the top bar and the player bar, with no black bars: if the video's shape doesn't match the page, the page background shows around it. Songs without a video keep YouTube Music's normal album-art layout.
 - The **Up next / Lyrics / Comments / Related sidebar folds away to the right** with the handle on its edge, and stays folded or unfolded across songs and reloads.
 - **Sidebar floats over the video** (default) with a blurred dark background, or switch it off so the video shrinks to the space beside the sidebar.
 

@@ -465,8 +465,18 @@ $H[data-sbi="on"] ytmusic-player-page #main-panel {
   max-height: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  background: #000 !important;
+  background: transparent !important;
   transition: right .25s ease !important;
+}
+/* No letterbox bars: when the video's shape doesn't match the page, the page's own
+   background shows around it instead of black (YouTube paints black on several layers) */
+$H[data-sbi="on"] ytmusic-player-page ytmusic-player#player,
+$H[data-sbi="on"] ytmusic-player-page #song-video,
+$H[data-sbi="on"] ytmusic-player-page #movie_player,
+$H[data-sbi="on"] ytmusic-player-page #movie_player .html5-video-container,
+$H[data-sbi="on"] ytmusic-player-page #movie_player video {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 $H[data-sbi="on"][data-sbi-overlay="off"][data-sbi-sidebar="open"] ytmusic-player-page #main-panel {
   right: var(--sbi-side-w) !important;
